@@ -1,3 +1,12 @@
+/** 用 %name 定义了一个占位符，%name 的内容不会出现在最终的 css 输出文件中，但是，我们可以定义新的 css 类，然后使用 @extend 去扩展这个占位符。*/
+/** 
+  .container {
+    @extend: %name;
+    color: #000
+  }
+
+*/
+
 /** 清除浮动 */
 %clearfix {
   &::after {

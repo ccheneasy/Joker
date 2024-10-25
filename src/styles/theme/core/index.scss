@@ -1,4 +1,11 @@
+// #{$theme-name} 是一种字符串插值语法，它允许你在样式表中使用变量的值,
+// 如果 $theme-name 的值是 "dark"，那么 .dark {} 将是最终生成的 CSS 选择器。
 .#{$theme-name} {
   @import "./layouts.scss";
+  @import "./login.scss";
+  @import "./error-page.scss";
   @import "./element-plus.scss";
+  @import "./other.scss";
 }
+
+
