@@ -1,63 +1,118 @@
 <template>
   <div class="container">
-    LOgin
-    <div class="verCode">{{ code }}</div>
-    <el-button type="primary" size="small">刷新</el-button>
-    <el-button type="primary" size="small" @click="handleLogin">点击</el-button>
-    <el-button type="primary" size="small" @click="handleLoginOut">清除</el-button>
-    <el-button type="primary" size="small" @click="handleSetTheme">切换</el-button>
+    <img class="icon-image" src="../../assets//login//beauty.png" alt="">
+    <p class="title">Sign in to Orange</p>
+    <div class="main-form">
+      <el-form ref="FormRef" :model="form" label-width="auto" label-position="top" :hide-required-asterisk="true">
+        <el-form-item label="Username or email address" prop="username" :rules="[{ required: true, message: 'Username or email address is required' }]">
+          <el-input v-model="form.username" placeholder="admin" clearable/>
+        </el-form-item>
+        <el-form-item prop="password" :rules="[{ required: true, message: 'Password is required' }]">
+          <template #label>
+            <div style="position: relative;">
+              <span>Password</span>
+              <el-link type="primary" :underline="false" class="forget-password">Forgot Password</el-link>
+            </div>
+          </template>
+          <el-input v-model="form.password" type="password" show-password placeholder="123"/>
+        </el-form-item>
+        <el-form-item label="Code">
+          <el-input v-model="form.code" style="width: calc(100% - 90px)"/>
+          <span class="ver-code" @click="handleRefreshCode">{{ codeNumber }}</span>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button type="primary" style="width: 100%;" @click="handleLogin">Sign in</el-button>
+        </el-form-item>
+
+      </el-form>
+    </div>
   </div>
 </template>
 
 <script setup>
   import { ref, reactive, onMounted } from 'vue'
   import { useUserStore } from '@/store/modules/user'
-  import { useRouter } from 'vue-router';
-  import { getLoginCodeApi } from '@/api/login'
-  import { ElMessage } from 'element-plus'
-  import { useTheme } from '@/hooks/useTheme'
-  const userStore = useUserStore()
-  // useRouter一定要放在setup方法内的顶层，否则作用域改变useRouter()执行返回的是undefined。
-  const router = useRouter()
-  const code = ref('')
-  const handleLogin = async () => {
-    await userStore.login({ username: 'admin', password: '123', code: code.value })
-    await userStore.getInfo()
-    router.replace({
-      path: '/'
+  import { getAccount, getRefreshCode } from '@/api/login/index'
+  import { useRouter } from 'vue-router'
+
+  const FormRef = ref()
+  const codeNumber = ref('')
+  const form = reactive({
+    username: '',
+    password: '',
+    code: ''
+  })
+  onMounted(() => {
+    getAccountInfo()
+  })
+
+  const handleRefreshCode = () => {
+    getRefreshCode().then(res => {
+      codeNumber.value = res.data.verCode
     })
   }
-  const handleLoginOut = () => {
-    const userStore = useUserStore()
-    userStore.logout()
-  }
-  const getVerificationCode = async () => {
-    try {
-      const data =  await getLoginCodeApi()
-      code.value = data.data.VerCode
-    } catch (error){
-      ElMessage(error)
-    }
+
+  const getAccountInfo = () => {
+    getAccount().then(res => {
+      if (res.code === 0){
+        codeNumber.value = res.data.verCode
+        form.username = res.data.username
+        form.password = res.data.password
+        form.code = res.data.verCode
+      }
+    })
   }
 
-  const handleSetTheme = () => {
-    const { setTheme } = useTheme()
-    setTheme('dark')
+  const UserStore = useUserStore()
+  const router = useRouter()
+  const handleLogin = () => {
+    FormRef.value.validate( async(valid, fields) => {
+      if (valid) {
+        await UserStore.login(form)
+        await UserStore.getInfo()
+        router.push('/')
+      }
+    })
   }
-  onMounted(() => {
-    getVerificationCode()
-  })
+
 </script>
 
 <style lang="scss" scoped>
   .container {
     width: 100%;
     height: 100%;
-    .verCode {
-      width: 160px;
-      height: 90px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .icon-image {
+      width: 80px;
+      margin-top: 60px;
+    }
+    .title {
+      font-size: 24px;
+    }
+    .main-form {
+      width: 300px;
+      padding: 20px;
+      border: 1px solid;
+      border-color: rgba(209, 217, 224, 0.7);
+      background-color: rgb(246, 248, 250);
+      border-radius: 6px;
+    }
+    .ver-code {
+      margin-left: 10px;
+      border: 1px solid rgba(209, 217, 224, 0.7);
+      border-radius: 4px;
+      width: 80px;
+      height: 30px;
       text-align: center;
-      line-height: 90px;
+      line-height: 30px;
+      cursor: pointer;
+    }
+    .forget-password {
+      position: absolute;
+      right: 0;
     }
   }
 </style>

@@ -1,9 +1,16 @@
 import { request } from "@/utils/service"
 
 /** 获取登录验证码 */
-export function getLoginCodeApi() {
+export function getRefreshCode() {
   return request({
-    url: "login/code",
+    url: "login/refreshCode",
+    method: "get"
+  })
+}
+
+export function getAccount() {
+  return request({
+    url: "login/getAccount",
     method: "get"
   })
 }
