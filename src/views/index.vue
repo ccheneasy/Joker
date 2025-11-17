@@ -1,5 +1,5 @@
 <template>
-  <div class="index-container">12</div>
+  <div class="index-container">hell</div>
 </template>
 
 <script setup>

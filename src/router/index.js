@@ -1,31 +1,14 @@
 import { createRouter, createWebHistory, createWebHashHistory } from "vue-router"
 import { registerNavigationGuard } from "@/router/permission.js"
-import Layout from "@/views/layout/index.vue"
 // 常驻路由
 export const constantRoutes = [
   {
     path: "/",
-    name: "layout",
-    redirect: "/overview",
-    component: Layout,
-    children: [
-      {
-        path: "overview",
-        name: "overview",
-        component: () => import("@/views/overview/index.vue"),
-        meta: {
-          title: "督查概览"
-        }
-      },
-      {
-        path: "operations-safety",
-        name: "operations-safety",
-        component: () => import("@/views/operationsSafety/index.vue"),
-        meta: {
-          title: "作业安全督查"
-        }
-      }
-    ]
+    name: "/",
+    component: () => import("@/views/index.vue"),
+    meta: {
+      title: "主页"
+    }
   }
 ]
 
