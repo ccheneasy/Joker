@@ -1,8 +1,13 @@
-# Prettier 会忽略的文件
+# Ignore artifacts:
+/dist/*
+/node_modules/**
 
-.DS_Store
-node_modules
-dist
-dist-ssr
-*.local
-.npmrc
+**/*.svg
+**/*.sh
+
+/public/*
+
+dist.zip
+pnpm-lock.yaml
+README.md
+

@@ -1,32 +1,30 @@
-// core
-import { createApp } from 'vue'
-import App from './App.vue'
-import store from "@/store"
-import router from '@/router'
-import "@/router/permission"
+import { createApp } from "vue"
 
-// load
-import { loadPlugins } from "@/plugins"
-import { loadDirectives } from "@/directives"
+import App from "@/App.vue"
+import store from "@/stores"
+import { router } from "@/router"
 
-// css
-import "normalize.css"
+import ElementPlus from "element-plus"
 import "element-plus/dist/index.css"
-import "element-plus/theme-chalk/dark/css-vars.css"
-import "@/styles/index.scss"
-import "@/assets/iconfonts/iconfont.css"
+import zhCn from "element-plus/es/locale/lang/zh-cn"
+import * as ElementPlusIconsVue from "@element-plus/icons-vue"
 
-// mock
-import '@/mock'
+import "normalize.css"
+import "nprogress/nprogress.css"
+import "@/assets/styles/index.css"
+import "@/assets/iconfont/iconfont.css"
 
 const app = createApp(App)
 
-// 加载插件
-loadPlugins(app)
-/** 加载自定义指令 */
-loadDirectives(app)
+app.use(store).use(router).use(ElementPlus, {
+  locale: zhCn
+})
 
-app.use(store).use(router)
+// 注册所有图标
+for (const i in ElementPlusIconsVue) {
+  app.component(i, ElementPlusIconsVue[i])
+}
+
 router.isReady().then(() => {
   app.mount("#app")
 })

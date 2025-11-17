@@ -1,0 +1,175 @@
+
+/* 滚动条样式 */
+/* 滚动条整体样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  /* background-image: linear-gradient(135deg, #1DE9B6 0%, rgba(8, 196, 219, 0.5) 72%, rgba(0, 182, 234, 0.3) 100%); */
+  /* background: #EBF0F4; */
+  margin: 10px 0;
+}
+/* 滚动条轨道样式 */
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  /* background: transparent; */
+}
+/* 滚动条滑块样式 */
+::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  border-radius: 0;
+  background: #B6C2CC;
+  /* background-color: transparent; */
+  transition: all .2s;
+  border-radius: 5px;
+}
+
+/* 滚动条滑块悬停样式 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(95, 95, 95, 0.5);
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  /* width: 100%; */
+  /* height: 100%; */
+  font-family: Inter, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.custom-loading1 {
+  width: 60px;
+  height: 15px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(circle closest-side,#409eff 90%,#0000);
+  background:
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 100%;
+  animation: l7 1s infinite linear;
+}
+@keyframes l7 {
+  33%{background-size:calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
+  50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
+  66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
+}
+
+/* 单行文本换行 */
+.single-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 长数字和英文换行 */
+.word-wrap {
+  word-wrap: break-word;      /* 允许单词在行末断开 */
+  overflow-wrap: break-word;  /* 对于非标准浏览器，使用 overflow-wrap 作为 fallback */
+  word-break: break-all;      /* 允许在单词内部进行断行 */
+}
+
+/* 鼓动loading */
+/* HTML: <div class="loader"></div> */
+.loader-loading {
+  margin: 8px 0;
+  color: #409eff;
+  width: 3px;
+  background-color: transparent;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 10px 0 0 4px, 22px 0 0 2px, 34px 0 0 0;
+  transform: translateX(-6px);
+  animation: l2112 .5s infinite alternate linear;
+}
+
+@keyframes l2112 {
+  50%  {box-shadow: 10px 0 0 2px, 22px 0 0 4px, 34px 0 0 2px}
+  100% {box-shadow: 10px 0 0 0  , 22px 0 0 2px, 34px 0 0 4px}
+}
+
+/* HTML: <div class="loader"></div> */
+.loader-loading-large {
+  color: #409eff;
+  width: 4px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: 19px 0 0 7px, 38px 0 0 3px, 57px 0 0 0;
+  transform: translateX(-38px);
+  animation: l2122 .5s infinite alternate linear;
+}
+
+@keyframes l2122 {
+  50%  {box-shadow: 19px 0 0 3px, 38px 0 0 7px, 57px 0 0 3px}
+  100% {box-shadow: 19px 0 0 0  , 38px 0 0 3px, 57px 0 0 7px}
+}
+
+/* HTML: <div class="loader"></div> */
+.loader-loading-4Dot {
+  height: 30px;
+  aspect-ratio: 2.5;
+  --_g: no-repeat radial-gradient(farthest-side,#409eff 90%,#0000);
+  background: var(--_g), var(--_g), var(--_g), var(--_g);
+  background-size: 20% 50%;
+  animation: l4311 1s infinite linear;
+}
+
+@keyframes l4311 {
+  0%     {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  16.67% {background-position: calc(0*100%/3) 0   ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  33.33% {background-position: calc(0*100%/3) 100%,calc(1*100%/3) 0   ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+  50%    {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 100%,calc(2*100%/3) 0   ,calc(3*100%/3) 50% }
+  66.67% {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 100%,calc(3*100%/3) 0   }
+  83.33% {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 100%}
+  100%   {background-position: calc(0*100%/3) 50% ,calc(1*100%/3) 50% ,calc(2*100%/3) 50% ,calc(3*100%/3) 50% }
+}
+
+.transition-fade-enter-active,
+.transition-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.transition-fade-enter-from,
+.transition-fade-leave-to {
+  opacity: 0;
+}
+
+
+.list-fade-move,
+.list-fade-enter-active,
+.list-fade-leave-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* 2. 声明进入和离开的状态 */
+.list-fade-enter-from,
+.list-fade-leave-to {
+  opacity: 0;
+  transform: scaleY(0.01) translate(30px, 0);
+}
+
+/* 3. 确保离开的项目被移除出了布局流以便正确地计算移动时的动画效果。 */
+.list-fade-leave-active {
+  /* position: absolute; */
+}
+
+
+/* 设置部分element全局样式 */
+.el-popper {
+  max-width: 92vw;
+}
+
+
+/* 更多全局样式代码
+  .
+  .
+  .
+ */
+

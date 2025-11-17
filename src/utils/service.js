@@ -1,14 +1,8 @@
 import axios from "axios"
-import { useUserStoreHook } from "@/store/modules/user"
 import { ElMessage } from "element-plus"
 import { get, merge } from "lodash-es"
 import { getToken } from "./cache/cookies"
-
-/** 退出登录并强制刷新页面（会重定向到登录页） */
-function logout() {
-  useUserStoreHook().logout()
-  location.reload()
-}
+import { fetchEventSource } from '@microsoft/fetch-event-source';
 
 /** 创建请求实例 */
 function createService() {
@@ -36,12 +30,17 @@ function createService() {
         return Promise.reject(new Error("非本系统的接口"))
       }
       switch (code) {
-        case 0:
-          // 本系统采用 code === 0 来表示没有业务错误
+        case 200:
+          // 本系统采用 code === 200 来表示没有业务错误
           return apiData
-        case 401:
+        case -1:
+          // 本系统采用 code === -1 业务异常code
+          return apiData
+        case 0:
+          return apiData
+        // case 401:
           // Token 过期时
-          return logout()
+          // return logout()
         default:
           // 不是正确的 code
           ElMessage.error(apiData.message || "Error")
@@ -57,7 +56,7 @@ function createService() {
           break
         case 401:
           // Token 过期时
-          logout()
+          // logout()
           break
         case 403:
           error.message = "拒绝访问"
@@ -106,7 +105,7 @@ function createRequest(service) {
         Authorization: token ? `Bearer ${token}` : undefined,
         "Content-Type": "application/json"
       },
-      timeout: 5000,
+      timeout: 1000 * 60 * 10,
       baseURL: import.meta.env.VITE_BASE_API,
       data: {}
     }
@@ -120,3 +119,21 @@ function createRequest(service) {
 const service = createService()
 /** 用于网络请求的方法 */
 export const request = createRequest(service)
+
+
+/** 创建sse请求 */
+// export const  requestSSE = (config) => {
+  // const ctrl = new AbortController()
+  // const defaultConfig = {
+  //   method: 'GET', // 请求方法，SSE 通常是 GET 请求。如果涉及到双向通信，需要改为POST。
+  //   headers: {
+  //     'Content-Type': 'text/event-stream', // 设置内容类型为 SSE，即
+  //   },
+  //   // body: null,
+  //   // 如果希望用户切换到另一个页面后仍能保持SSE连接，可以配置openWhenHidden属性为true；
+  //   openWhenHidden: true,
+  //   signal: ctrl.signal,
+  // }
+  // const mergeConfig = merge(defaultConfig, config)
+  // return fetchEventSource(mergeConfig)
+// }

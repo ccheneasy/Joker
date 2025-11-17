@@ -1,4 +1,10 @@
 import dayjs from "dayjs"
+import { v4 as uuidv4 } from 'uuid';
+
+export function getUuid() {
+  // return uuidv4().replace(/-/g, '')
+  return uuidv4()
+}
 
 /** 格式化时间 */
 export const formatDateTime = (time) => {
